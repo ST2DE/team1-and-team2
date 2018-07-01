@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="ST2DE-bus.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+        crossorigin="anonymous">
+    <title>Bus route inquiring</title>
+</head>
+<body>
+    
+    <aside id="sidebar">
+        <div class="bus-check">
+            <div class="start">
+                <label for="start">起點</label>
+                <input type="text" id="start">
+            </div>
+            <div class="end">
+                <label for="end">終點</label>
+                <input type="text" id="end">
+            </div>
+            <button value="submit" id="btn">查詢路線</button>
+
+            <div class="separator"></div>
+        </div>
+        <div class="bus-list">
+            <h1>建議路線</h1>
+                <ul>
+                    <li class="title">
+                    <details>
+                        <summary>
+                            <i class="fas fa-bus-alt"></i>14</summary>
+                        <p>A站</p>
+                        <p>B站</p>
+                        <p>c站</p>
+                    </details>
+                        <span class="time">10分鐘</span>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="title">
+                        <details>
+                            <summary><i class="fas fa-bus-alt"></i>256</summary>
+                            <p>A站</p>
+                            <p>B站</p>
+                            <p>c站</p>
+                        </details>
+                        <span class="time">25分鐘</span>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="title">
+                        <details>
+                            <summary>
+                                <i class="fas fa-bus-alt"></i>256</summary>
+                            <p>A站</p>
+                            <p>B站</p>
+                            <p>c站</p>
+                        </details>
+                        <span class="time">25分鐘</span>
+                    </li>
+                </ul><ul>
+                    <li class="title">
+                        <details>
+                            <summary>
+                                <i class="fas fa-bus-alt"></i>256</summary>
+                            <p>A站</p>
+                            <p>B站</p>
+                            <p>c站</p>
+                        </details>
+                        <span class="time">25分鐘</span>
+                    </li>
+                </ul>
+        </div>        
+    </aside>
+
+    <script src="ST2DE-bus.js"></script>
+</body>
+</html>
