@@ -7,38 +7,53 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src https://cdn.jsdelivr.net https://api.tiles.mapbox.com"> -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="./public/css/ST2DE-bus.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="./main.css" />
 
-    <title>餔餔</title>
+    <title>bus</title>
 </head>
 
 <body>
-    <div id='map'></div>
     <div id="app">
+        <aside id="sidebar">
+            <div class="bus-check">
+                <div class="start">
+                    <label for="start">起點</label>
+                    <input type="text" id="start">
+                </div>
+                <div class="end">
+                    <label for="end">終點</label>
+                    <input type="text" id="end">
+                </div>
+                <button value="submit" id="btn">查詢路線</button>
 
+                <div class="separator"></div>
+            </div>
+            <div class="bus-list">
+                <h1>建議路線</h1>
+                <ul>
+                    <li class="title">
+                        <details>
+                            <summary>
+                                <i class="fas fa-bus-alt"></i>14</summary>
+                            <p>A站</p>
+                            <p>B站</p>
+                            <p>c站</p>
+                        </details>
+                        <span class="time">10分鐘</span>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <div id="map"></div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApcjsmR-PByKfkDKm__VAJjGLjMK1ASHw"></script>
+    <script type="module" src="./main.js"></script>
 </body>
 
 </html>
-<script src='public/js/map.js'></script>
-<script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-            message: 'Hello Vue!'
-        }
-    });
-</script>
-
-<style>
-    html,
-    body {
-        margin: 0;
-    }
-
-    #map {
-        height: 100vh;
-    }
-</style>
