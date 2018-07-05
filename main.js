@@ -17,6 +17,7 @@ var app = new Vue({
         setInterval(function () {
             axios.get('https://ptx.transportdata.tw/MOTC/v2/Bus/RealTimeByFrequency/City/Taipei/307?$top=30&$format=JSON')
                 .then(function (res) {
+
                     res.data.forEach(function (data) {
                         // BUS 實體
                         let DirectionInText = data.Direction ? '去程' : '返程'
@@ -105,6 +106,7 @@ var app = new Vue({
         }
     },
     methods: {
+
         togglePanel: function () {
             this.isPanelOpen = !this.isPanelOpen;
         },
