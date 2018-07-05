@@ -1,3 +1,4 @@
+var busMarkers = [];
 var app = new Vue({
     el: '#app',
     data: {
@@ -10,36 +11,18 @@ var app = new Vue({
                 lat: 25.0350968,
                 lng: 121.5628179
             },
+            streetViewControl: false,
             zoom: 15
         })
 
-        // 公車即時位置 30秒刷新
-        setInterval(function () {
-            axios.get('https://ptx.transportdata.tw/MOTC/v2/Bus/RealTimeByFrequency/City/Taipei/307?$top=30&$format=JSON')
-                .then(function (res) {
-
-                    res.data.forEach(function (data) {
-                        // BUS 實體
-                        let DirectionInText = data.Direction ? '去程' : '返程'
-
-                        var busMarker = new google.maps.Marker({
-                            position: {
-                                lat: data.BusPosition.PositionLat,
-                                lng: data.BusPosition.PositionLon
-                            },
-                            map: map,
-                            icon: "https://png.icons8.com/metro/26/000000/bus.png"
-                        })
-                        var busInfo = new google.maps.InfoWindow({
-                            content: `路線 : ${data.RouteName.Zh_tw}\n車牌號碼 :${data.PlateNumb}\n方向 : ${DirectionInText}\n`
-                        })
-                        busMarker.addListener('click', function () {
-                            busInfo.open(map, busMarker)
-                        }) //同步生成infowindow
-                    })
-                })
-        }, 5000)
-
+        // 取得公車即時位置後 每5秒刷新
+        refreshBusData()
+            .then(function () {
+                setInterval(function () {
+                    clearAllBusMarkers();
+                    refreshBusData();
+                }, 5000);
+            });
         // 畫路線和站牌
         axios.get('https://ptx.transportdata.tw/MOTC/v2/Bus/DisplayStopOfRoute/City/Taipei/307?$top=30&$format=JSON')
             .then(function (res) {
@@ -103,6 +86,43 @@ var app = new Vue({
             userPositionInfoWindow.setPosition(pos);
             userPositionInfoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
             userPositionInfoWindow.open(map);
+        }
+
+        function refreshBusData() {
+            axios.get('https://ptx.transportdata.tw/MOTC/v2/Bus/RealTimeByFrequency/City/Taipei/307?$top=30&$format=JSON')
+                .then(function (res) {
+                    res.data.forEach(function (data) {
+                        // BUS 實體
+                        let DirectionInText = data.Direction ? '去程' : '返程'
+
+                        var busMarker = new google.maps.Marker({
+                            position: {
+                                lat: data.BusPosition.PositionLat,
+                                lng: data.BusPosition.PositionLon
+                            },
+                            map: map,
+                            icon: "https://png.icons8.com/metro/26/000000/bus.png"
+                        })
+                        var busInfo = new google.maps.InfoWindow({
+                            content: `路線 : ${data.RouteName.Zh_tw}\n車牌號碼 :${data.PlateNumb}\n方向 : ${DirectionInText}\n`
+                        })
+                        busMarker.addListener('click', function () {
+                            busInfo.open(map, busMarker)
+                        }) //同步生成infowindow
+                        busMarkers.push(busMarker);
+                    })
+                })
+
+        }
+
+        function clearAllBusMarkers() {
+            if (busMarkers.length > 0) {
+                busMarkers.forEach(function (bus) {
+                    bus.setMap(null);
+                    var index = busMarkers.indexOf(bus);
+                    busMarkers.slice(index, 1);
+                });
+            }
         }
     },
     methods: {
