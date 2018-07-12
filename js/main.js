@@ -103,6 +103,7 @@ var vm = new Vue({
     renderDataByCityAndRouteId: function(city, id) {
       this.displayRoutesAndStops(city, id);
       this.displayBusInRealTime(city, id);
+      this.getTime(city, id);
     },
     displayRoutesAndStops: function(city, id) {
       if (vm.stopMarkers) {
@@ -140,7 +141,6 @@ var vm = new Vue({
             tempStops.push(stopMarker);
           });
           vm.stopMarkers = tempStops;
-
           // 畫線
           vm.busRouteLine = new google.maps.Polyline({
             path: pathAxis,
@@ -154,46 +154,70 @@ var vm = new Vue({
         });
     },
     displayBusInRealTime: function(city, id) {
+      setInterval(function() {
+        axios
+          .get(
+            "https://ptx.transportdata.tw/MOTC/v2/Bus/RealTimeByFrequency/City/" +
+              city +
+              "/" +
+              id +
+              "?$top=30&$format=JSON"
+          )
+          .then(function(res) {
+            res.data.forEach(function(data) {
+              // BUS 實體
+              let DirectionInText = data.Direction ? "去程" : "返程";
+
+              var busMarker = new google.maps.Marker({
+                position: {
+                  lat: data.BusPosition.PositionLat,
+                  lng: data.BusPosition.PositionLon
+                },
+                map: vm.map,
+                icon: "https://png.icons8.com/metro/26/000000/bus.png"
+              });
+              var busInfo = new google.maps.InfoWindow({
+                content: `路線 : ${data.RouteName.Zh_tw}\n車牌號碼 :${
+                  data.PlateNumb
+                }\n方向 : ${DirectionInText}\n`
+              });
+              busMarker.addListener("click", function() {
+                busInfo.open(vm.map, busMarker);
+              }); //同步生成infowindow
+              tempMarker.push(busMarker);
+            });
+            vm.busMarkers = tempMarker;
+          });
+      }, 5000);
       var tempMarker = [];
+    },
+    getTime: function(city, id) {
+      var tmp = [];
       axios
         .get(
-          "https://ptx.transportdata.tw/MOTC/v2/Bus/RealTimeByFrequency/City/" +
+          "http://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/" +
             city +
             "/" +
             id +
-            "?$top=30&$format=JSON"
+            "?$format=JSON"
         )
         .then(function(res) {
           res.data.forEach(function(data) {
-            // BUS 實體
-            let DirectionInText = data.Direction ? "去程" : "返程";
-
-            var busMarker = new google.maps.Marker({
-              position: {
-                lat: data.BusPosition.PositionLat,
-                lng: data.BusPosition.PositionLon
-              },
-              map: vm.map,
-              icon: "https://png.icons8.com/metro/26/000000/bus.png"
+            tmp.push({
+              stopName: data.StopName.Zh_tw,
+              estimateTime: data.EstimateTime,
+              direction: data.Direction
             });
-            var busInfo = new google.maps.InfoWindow({
-              content: `路線 : ${data.RouteName.Zh_tw}\n車牌號碼 :${
-                data.PlateNumb
-              }\n方向 : ${DirectionInText}\n`
-            });
-            busMarker.addListener("click", function() {
-              busInfo.open(vm.map, busMarker);
-            }); //同步生成infowindow
-            tempMarker.push(busMarker);
           });
-          vm.busMarkers = tempMarker;
+          
+          console.log(tmp);
         });
     }
   },
   computed: {
     shouldPanelShow: function() {
       return {
-        left: this.isPanelOpen ? 0 : "-33%"
+        left: this.isPanelOpen ? 0 : "-500px"
       };
     },
     reverseArrow: function() {

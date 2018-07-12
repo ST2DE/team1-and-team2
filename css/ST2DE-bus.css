@@ -147,18 +147,18 @@ table {
 }
 
 #sidebar {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100%;
     width: 500px;
     background: #1D2127;
-    transition-duration: .5s;
+    transition-duration: .3s;
     z-index: 5;
 }
 
 #sidebar .bus-check {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100%;
@@ -221,11 +221,12 @@ table {
 
 .bus-list {
     margin-bottom: 10px;
-    position: absolute;
+    position: fixed;
     top: 280px;
     left: 10px;
     padding-left: 10px;
-    overflow: hidden;
+    overflow: auto;
+    overflow-x: hidden;
     width: 480px;
     height: 650px;
 }
@@ -304,19 +305,6 @@ details .bus-point {
     border-radius: 50%;
 }
 
-
-#search-bar input{
-    border: 1px solid black;
-    border-radius: 10px;
-    width: 33%;
-    height: 50px;
-    position: absolute;
-    left: 50%;
-    top: 5%;
-    z-index: 99999;
-    margin: 10px;
-}
-
 #panel-toggle-button-container {
     position: absolute;
     left: 500px;
@@ -337,7 +325,6 @@ i.fa-angle-left {
     color: white;
     transition: .5s;
 }
-
 
 .user-location {
     color: white;
