@@ -31,7 +31,7 @@ footer, header, hgroup, menu, nav, section {
 body {
     line-height: 1;
     font-family: Microsoft JhengHei;
-    scrollbar-highlight-color:yellow;	/* 邊框亮面的顏色 */
+    scrollbar-highlight-color:#FCCC22;	/* 邊框亮面的顏色 */
     scrollbar-shadow-color:red;		    /* 邊框暗面的顏色 */
     scrollbar-face-color:green;		    /* 表面顏色 */
     scrollbar-arrow-color:blue;		    /* 方向箭頭的顏色 */
@@ -59,9 +59,10 @@ table {
   left: 0;
   height: 100%;
   width: 500px;
-  background: #1D2127;
+  background: #00314f;
   transition-duration: .3s;
   z-index: 5;
+  
 }
 
 #sidebar .bus-check{
@@ -106,22 +107,22 @@ table {
     margin: 20px 30%;
     font-size: 30px;
     font-family:Microsoft JhengHei;
-    color: #61C7B3;
-    background-color:#1D2127;
-    border: #61C7B3 solid 3px;
+    color: #FCCC22;
+    background-color:#00314f;
+    border: #FCCC22 solid 3px;
     border-radius:15px;
     border-spacing: 10px; 
     padding: 10px 20px;
     cursor: pointer;
 }
 #sidebar #btn:hover{
-    color:#1D2127;
-    background: #61C7B3;
+    color:#00314f;
+    background: #FCCC22;
 }
 
 #sidebar .separator {
   height: 1px;
-  background: #2D3138;
+  background:#00314f;
 }
 
 .bus-list{
@@ -135,45 +136,57 @@ table {
     width:480px;
     height: 650px;
 }
-
+.wrap{
+    width: 500px;
+}
 .bus-list h1{
     font-size: 30px;
     color: aliceblue;
-    margin: 10px 0px;
+    margin: 10px 0px 15px 0px;
 }
 .bus-list ul{
-    margin: 15px 0px;
-    width: 500px;
+    margin: 60px 0px;
+    max-width: 440px;
+    position: relative;
+    z-index: 1;
 }
 .bus-list ul i{
     margin: 14px 10px;
-    color:#61C7B3;
+    color:#FCCC22;
     font-size: 45px;
     vertical-align: middle;
     line-height: 40px;
 }
 .bus-list ul li{
-    background: #1D2127;
-    border: solid #61C7B3 1px;
+    background: #00314f;
+    border: solid #FCCC22 1px;
     border-radius:2px; 
     font-size: 30px;
     width: 88%;
-    position: relative;
-    padding: 5px;
+    /* padding: 5px; */
     vertical-align: middle;
     box-shadow: 0px 0px 35px rgba(0, 0, 0, 0.3);
+    
+    position: relative;
 }
 summary{
-    color:#61C7B3;
+    color:#FCCC22;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+summary i .bus-num{
+    font-size: 40px;
+}
+summary span{
+    margin-right: 10px;
 }
 .bus-list ul li .time{
     font-size: 20px;
-    color: #61C7B3;
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
+    color: #FCCC22;
+    font-size: 24px;
 }
-.bus-list ul li:hover{
+.bus-list ul:hover{
   -webkit-transform: translate(-2px, -2px);
   transform: translate(-2px, -2px);
   transition: 0.5s;
@@ -184,15 +197,69 @@ details ::-webkit-details-marker { display: none; }
 details ::-moz-list-bullet { font-size: 0; }
 details p{
     font-size: 24px;
-    color:#61C7B3;
+    color:#FCCC22;
     margin: 10px 30px;
+    display: flex;
+    justify-content:space-between
+}
+
+details p span{
+    display:flex;
 }
 details .bus-point{
     display: inline;
     width: 20px;
     height: 20px;
-    background-color: #61C7B3;
-    border: #61C7B3 solid 1px;
+    background-color: #FCCC22;
+    border: #FCCC22 solid 1px;
     border-radius:50%; 
 }
+.go-or-back{
+    font-size: 20px;
+    color: #FCCC22;
+    padding: 10px 20px;
+    padding-bottom: 10px;
+    background-color: #00314f;
+    border:solid 1px #FCCC22;
+    border-bottom:none; 
+    z-index: 9;
+    position: absolute;
+    top: -40px;
+    left: 0;
+}
 
+
+.back{
+    font-size: 20px;
+    color: #FCCC22;
+    padding: 10px 20px;
+    padding-bottom: 10px;
+    background-color: #00314f;
+    border:solid 1px #FCCC22;
+    z-index: 9;
+    position: absolute;
+    top: -40px;
+    left: 80px;
+}
+
+#panel #pointer{
+    font-size: 20px;
+    color: #FCCC22;
+    padding: 40px 10px;
+    background-color: #00314f;
+    position: absolute;
+    top: 0px;
+    left:490px;
+    z-index: 99;
+    border-radius: 5px;
+}
+aside #sidebar{
+    position: relative;
+    z-index: 10;
+}
+
+.slide-toggle{
+-webkit-transform: translateX(-400px);
+  transform: translateX(-400px);
+  transition: all .3s;
+}

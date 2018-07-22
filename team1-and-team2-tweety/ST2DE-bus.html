@@ -11,70 +11,125 @@
 </head>
 <body>
     
-    <aside id="sidebar">
-        <div class="bus-check">
-            <div class="start">
-                <label for="start">起點</label>
-                <input type="text" id="start">
+    <div id="panel">
+        <div id="pointer"> ► </div>
+        <aside id="sidebar">
+            <div class="bus-check">
+                <div class="start">
+                    <label for="start">起點</label>
+                    <input type="text" id="start">
+                </div>
+                <div class="end">
+                    <label for="end">終點</label>
+                    <input type="text" id="end">
+                </div>
+                <button value="submit" id="btn">查詢路線</button>
+        
+                <div class="separator"></div>
             </div>
-            <div class="end">
-                <label for="end">終點</label>
-                <input type="text" id="end">
-            </div>
-            <button value="submit" id="btn">查詢路線</button>
+            <div class="bus-list">
+                <h1>建議路線</h1>
+                
+                <ul>
+                    <div class="wrap">
+                        <span class="go-or-back go">去程</span>
+                        <span class="go-or-back back">回程</span>
+                        <li class="title">
+                            <details>
+                                <summary>
+                                    <i class="fas fa-bus-alt"><span class="bus-num"> 256</span></i> <span class="time">25分鐘</span></summary>
+                                <p>A站
+                                    <span>1分鐘</span>
+                                </p>
+                                <p>B站
+                                    <span>1分鐘</span>
+                                </p>
+                                <p>c站
+                                    <span>1分鐘</span>
+                                </p>
+                            </details>
+                        </li>
+                    </div>
+                </ul>
+                
+                <ul>
+                    <div class="wrap">
+                        <span class="go-or-back go">去程</span>
+                        <span class="go-or-back back">回程</span>
+                        <li class="title">
+                            <details>
+                                <summary>
+                                    <i class="fas fa-bus-alt"><span class="bus-num"> 256</span></i>
+                                    <span class="time">25分鐘</span>
+                                </summary>
+                                <p>A站
+                                    <span>1分鐘</span>
+                                </p>
+                                <p>B站
+                                    <span>1分鐘</span>
+                                </p>
+                                <p>c站
+                                    <span>1分鐘</span>
+                                </p>
+                            </details>
+                        </li>
+                    </div>
+                </ul>
 
-            <div class="separator"></div>
+            <ul>
+                <div class="wrap">
+                    <span class="go-or-back go">去程</span>
+                    <span class="go-or-back back">回程</span>
+                    <li class="title">
+                        <details>
+                            <summary>
+                                <i class="fas fa-bus-alt"><span class="bus-num"> 256</span></i>
+                                <span class="time">25分鐘</span>
+                            </summary>
+                            <p>A站
+                                <span>1分鐘</span>
+                            </p>
+                            <p>B站
+                                <span>1分鐘</span>
+                            </p>
+                            <p>c站
+                                <span>1分鐘</span>
+                            </p>
+                        </details>
+                    </li>
+                </div>
+            </ul>
+
+                <ul>
+                    <div class="wrap">
+                        <span class="go-or-back go">去程</span>
+                        <span class="go-or-back back">回程</span>
+                        <li class="title">
+                            <details>
+                                <summary>
+                                    <i class="fas fa-bus-alt"> <span class="bus-num"> 256</span></i>
+                                    <span class="time">25分鐘</span>
+                                </summary>
+                                <p>A站
+                                    <span>1分鐘</span>
+                                </p>
+                                <p>B站
+                                    <span>1分鐘</span>
+                                </p>
+                                <p>c站
+                                    <span>1分鐘</span>
+                                </p>
+                            </details>
+                        </li>
+                    </div>
+                </ul>
+
+            </div>
+        </aside>
+        <div id="panel-toggle-button-container">
+            <button>►</button>
         </div>
-        <div class="bus-list">
-            <h1>建議路線</h1>
-                <ul>
-                    <li class="title">
-                    <details>
-                        <summary>
-                            <i class="fas fa-bus-alt"></i>14</summary>
-                        <p>A站</p>
-                        <p>B站</p>
-                        <p>c站</p>
-                    </details>
-                        <span class="time">10分鐘</span>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="title">
-                        <details>
-                            <summary><i class="fas fa-bus-alt"></i>256</summary>
-                            <p>A站</p>
-                            <p>B站</p>
-                            <p>c站</p>
-                        </details>
-                        <span class="time">25分鐘</span>
-                    </li>
-                </ul>
-                <ul>
-                    <li class="title">
-                        <details>
-                            <summary>
-                                <i class="fas fa-bus-alt"></i>256</summary>
-                            <p>A站</p>
-                            <p>B站</p>
-                            <p>c站</p>
-                        </details>
-                        <span class="time">25分鐘</span>
-                    </li>
-                </ul><ul>
-                    <li class="title">
-                        <details>
-                            <summary>
-                                <i class="fas fa-bus-alt"></i>256</summary>
-                            <p>A站</p>
-                            <p>B站</p>
-                            <p>c站</p>
-                        </details>
-                        <span class="time">25分鐘</span>
-                    </li>
-                </ul>
-        </div>        
-    </aside>
+    </div>
 
     <script src="ST2DE-bus.js"></script>
 </body>
