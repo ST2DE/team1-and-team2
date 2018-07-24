@@ -1,0 +1,273 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+    line-height: 1;
+    font-family: Microsoft JhengHei;   
+}
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,1); 
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,1); 
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+#sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 500px;
+  background: #00314f;
+  transition-duration: .3s;
+  z-index: 5;
+  
+}
+
+#sidebar .bus-check{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 480px;
+  margin: 30px 0px 30px 10px
+}
+
+#sidebar .bus-check .start{
+    margin: 0 0 10px 0;
+    font-size: 28px;
+    color: aliceblue;
+}
+
+#sidebar .bus-check label{
+    margin-top:5px;
+    margin-right: 10px; 
+}
+
+#sidebar .bus-check input{
+    margin-left: 10px;
+    border-radius:5px;
+    width: 78%;
+    height: 24px;
+    padding: 2.5px;
+    line-height: 28px;
+    vertical-align: middle;
+    margin: 10px 0px;
+    font-size: 24px;
+    font-family: Microsoft JhengHei;
+}
+#sidebar .bus-check .end{
+    margin: 0 0 10px 0;
+    font-size: 28px;
+    color: aliceblue;
+}
+
+#sidebar #btn{
+    margin: 20px 30%;
+    font-size: 30px;
+    font-family:Microsoft JhengHei;
+    color: #FCCC22;
+    background-color:#00314f;
+    border: #FCCC22 solid 3px;
+    border-radius:15px;
+    border-spacing: 10px; 
+    padding: 10px 20px;
+    cursor: pointer;
+}
+#sidebar #btn:hover{
+    color:#00314f;
+    background: #FCCC22;
+}
+
+#sidebar .separator {
+  height: 1px;
+  background:#00314f;
+}
+
+.bus-list{
+    margin-bottom:10px; 
+    position: fixed;
+    top: 280px;
+    left: 10px;
+    padding-left:10px; 
+    overflow:auto;
+    overflow-x: hidden;
+    width:480px;
+    height: 650px;
+}
+.wrap{
+    width: 500px;
+}
+.bus-list h1{
+    font-size: 30px;
+    color: aliceblue;
+    margin: 10px 0px 15px 0px;
+}
+.bus-list ul{
+    margin: 60px 0px;
+    max-width: 440px;
+    position: relative;
+    z-index: 1;
+}
+.bus-list ul i{
+    margin: 14px 10px;
+    color:#FCCC22;
+    font-size: 45px;
+    vertical-align: middle;
+    line-height: 40px;
+}
+.bus-list ul li{
+    background: #00314f;
+    border: solid #FCCC22 1px;
+    border-radius:2px; 
+    font-size: 30px;
+    width: 88%;
+    /* padding: 5px; */
+    vertical-align: middle;
+    box-shadow: 0px 0px 35px rgba(0, 0, 0, 0.3);
+    
+    position: relative;
+}
+summary{
+    color:#FCCC22;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+summary i .bus-num{
+    font-size: 40px;
+}
+summary span{
+    margin-right: 10px;
+}
+.bus-list ul li .time{
+    font-size: 20px;
+    color: #FCCC22;
+    font-size: 24px;
+}
+.bus-list ul:hover{
+  -webkit-transform: translate(-2px, -2px);
+  transform: translate(-2px, -2px);
+  transition: 0.5s;
+  box-shadow: 5px 5px 60px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+details ::-webkit-details-marker { display: none; } 
+details ::-moz-list-bullet { font-size: 0; }
+details p{
+    font-size: 24px;
+    color:#FCCC22;
+    margin: 10px 30px;
+    display: flex;
+    justify-content:space-between
+}
+
+details p span{
+    display:flex;
+}
+details .bus-point{
+    display: inline;
+    width: 20px;
+    height: 20px;
+    background-color: #FCCC22;
+    border: #FCCC22 solid 1px;
+    border-radius:50%; 
+}
+.go-or-back{
+    font-size: 20px;
+    color: #FCCC22;
+    padding: 10px 20px;
+    padding-bottom: 10px;
+    background-color: #00314f;
+    border:solid 1px #FCCC22;
+    border-bottom:none; 
+    z-index: 9;
+    position: absolute;
+    top: -40px;
+    left: 0;
+}
+
+
+.back{
+    font-size: 20px;
+    color: #FCCC22;
+    padding: 10px 20px;
+    padding-bottom: 10px;
+    background-color: #00314f;
+    border:solid 1px #FCCC22;
+    z-index: 9;
+    position: absolute;
+    top: -40px;
+    left: 80px;
+}
+
+#panel #pointer{
+    font-size: 20px;
+    color: #FCCC22;
+    padding: 40px 10px;
+    background-color: #00314f;
+    position: absolute;
+    top: 0px;
+    left:490px;
+    z-index: 99;
+    border-radius: 5px;
+}
+aside #sidebar{
+    position: relative;
+    z-index: 10;
+}
+
+.slide-toggle{
+-webkit-transform: translateX(-400px);
+  transform: translateX(-400px);
+  transition: all .3s;
+}
