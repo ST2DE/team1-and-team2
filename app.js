@@ -170,21 +170,21 @@ var vm = new Vue({
             "?$format=JSON"
           )
           .then(function (res) {
-            if (flag !== 0) {
+            if (flag != 0) {
               vm.busMarkers.forEach(function (bus) {
                 bus.setMap(null);
                 var index = vm.busMarkers.indexOf(bus);
                 vm.busMarkers.slice(index, 1);
               });
+              vm.busMarkers = ''
             }
 
             res.data.forEach(function (data) {
-
+              let tempMarker = []
               if (data.RouteName.Zh_tw != id)
-                return
+                return 
               // BUS 實體
               let DirectionInText = data.Direction ? "去程" : "返程";
-
               var busMarker = new google.maps.Marker({
                 position: {
                   lat: data.BusPosition.PositionLat,
@@ -205,9 +205,8 @@ var vm = new Vue({
             });
             vm.busMarkers = tempMarker;
           });
-        var tempMarker = [];
         flag++;
-      }, 10000);
+      }, 5000);
     },
     getTime: function (city, id, uid) {
       target = '[data-route-uid="' + uid + '"]';

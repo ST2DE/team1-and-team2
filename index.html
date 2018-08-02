@@ -16,11 +16,10 @@
 <body>
     <div id="app">
         <aside id="sidebar" :style="shouldPanelShow">
-            <vue-tabs>
-                <v-tab title="查詢班次">
                     <div class="route-search-container">
                         <div class="userAddress">
-                            <i class="fa fa-map-marker" aria-hidden="true"></i>{{ userCurrentAddress }}</div>
+                            <span v-html="userCurrentAddress"><i class="fa fa-map-marker" aria-hidden="true"></i>定位中...</span>
+                        </div>
                         <input type="text" id="start" placeholder="搜尋路線" autocomplete="on" v-on:input="searchRoute" v-model="searchInput">
                         <div class="city-select-container">
                             <span class="city-select city-select-active" v-on:click="setCity('Taipei')">台北市</span>
@@ -30,7 +29,7 @@
                             <span class="city-select" v-on:click="setCity('Tainan')">台南市</span>
                             <span class="city-select" v-on:click="setCity('kaohsiung')">高雄市</span>
                         </div>
-                        <button value="submit" id="btn">查詢路線{{userCurrentCity}}</button>
+                        <button value="submit" id="btn">查詢路線</button>
                         <div class="separator"></div>
                     </div>
                     <div class="bus-list">
@@ -76,24 +75,6 @@
                             </div>
                         </ul>
                     </div>
-                </v-tab>
-
-                <v-tab title="路線搜尋">
-                    <div class="bus-check">
-                        <div class="start">
-                            <label for="start">起點</label>
-                            <input type="text" id="start">
-                        </div>
-                        <div class="end">
-                            <label for="end">終點</label>
-                            <input type="text" id="end">
-                        </div>
-                        <button value="submit" id="btn">查詢路線</button>
-
-                        <div class="separator"></div>
-                    </div>
-                </v-tab>
-            </vue-tabs>
 
             <button id="sidebar-toggler" @click="togglePanel">
                 <i class="fas fa-angle-left" :style="reverseArrow"></i>
@@ -105,7 +86,6 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/vue-nav-tabs/dist/vue-tabs.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApcjsmR-PByKfkDKm__VAJjGLjMK1ASHw"></script>
     <script src="./app.js"></script>
 </body>
