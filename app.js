@@ -12,7 +12,7 @@ var vm = new Vue({
     searchInput: "",
     isPanelOpen: true
   },
-  mounted: function() {
+  mounted: function () {
     var currentPosition;
     // initial map instance
     this.map = new google.maps.Map(document.getElementById("map"), {
@@ -22,7 +22,7 @@ var vm = new Vue({
     });
     // get user current position and recommend bus routes
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
+      navigator.geolocation.getCurrentPosition(function (position) {
         currentPosition = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -30,7 +30,7 @@ var vm = new Vue({
         // lat,lng to address
         new google.maps.Geocoder().geocode(
           { latLng: currentPosition },
-          function(result, status) {
+          function (result, status) {
             if (status === google.maps.GeocoderStatus.OK) {
               // generate current position in text
               vm.userCurrentAddress = result[1].formatted_address;
@@ -42,16 +42,16 @@ var vm = new Vue({
               axios
                 .get(
                   "https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/" +
-                    vm.userCurrentCity +
-                    "?$format=JSON"
+                  vm.userCurrentCity +
+                  "?$format=JSON"
                 )
-                .then(function(res) {
+                .then(function (res) {
                   let recommend = [];
                   // pick 3 routes ramdomly
-                  for (let i = 0; i < 100; i++) {
+                  for (let i = 0; i < 5; i++) {
                     let busRoute =
                       res.data[
-                        Math.floor(Math.random() * (res.data.length - 1))
+                      Math.floor(Math.random() * (res.data.length - 1))
                       ]; // get a ramdom index between 0 ~ length-1
                     recommend.push({
                       routeUID: busRoute.RouteUID,
@@ -67,7 +67,8 @@ var vm = new Vue({
 
                   vm.map.setCenter(currentPosition);
                   var elem = document.querySelector(".loading-container");
-                  elem.parentNode.removeChild(elem);
+                  // elem.parentNode.removeChild(elem);
+                  elem.style.display = "none";
                 });
             } else {
               console.log("定位失敗");
@@ -78,13 +79,13 @@ var vm = new Vue({
     }
   },
   methods: {
-    togglePanel: function() {
+    togglePanel: function () {
       this.isPanelOpen = !this.isPanelOpen;
     },
-    clearMap: function() {
+    clearMap: function () {
       //delete bus
       if (vm.busMarkers.length > 0) {
-        vm.busMarkers.forEach(function(bus) {
+        vm.busMarkers.forEach(function (bus) {
           bus.setMap(null);
           var index = vm.busMarkers.indexOf(bus);
           vm.busMarkers.slice(index, 1);
@@ -92,7 +93,7 @@ var vm = new Vue({
       }
       // delete marker
       if (vm.stopMarkers.length > 0) {
-        vm.stopMarkers.forEach(function(bus) {
+        vm.stopMarkers.forEach(function (bus) {
           bus.setMap(null);
           var index = vm.stopMarkers.indexOf(bus);
           vm.stopMarkers.slice(index, 1);
@@ -104,12 +105,12 @@ var vm = new Vue({
         vm.busRouteLine = "";
       }
     },
-    renderDataByCityAndRouteId: function(city, id, uid) {
+    renderDataByCityAndRouteId: function (city, id, uid) {
       this.displayRoutesAndStops(city, id);
       this.displayBusInRealTime(city, id);
       this.getTime(city, id, uid);
     },
-    displayRoutesAndStops: function(city, id) {
+    displayRoutesAndStops: function (city, id) {
       if (vm.stopMarkers) {
         this.clearMap();
         vm.stopMarkers = "";
@@ -117,15 +118,15 @@ var vm = new Vue({
       axios
         .get(
           "http://ptx.transportdata.tw/MOTC/v2/Bus/StopOfRoute/City/" +
-            city +
-            "/" +
-            id +
-            "?$format=JSON"
+          city +
+          "/" +
+          id +
+          "?$format=JSON"
         )
-        .then(function(response) {
+        .then(function (response) {
           let pathAxis = [];
           let tempStops = [];
-          response.data[0].Stops.forEach(function(stop, index) {
+          response.data[0].Stops.forEach(function (stop, index) {
             // 路線
             pathAxis.push({
               lat: stop.StopPosition.PositionLat,
@@ -157,26 +158,30 @@ var vm = new Vue({
           vm.map.setCenter(pathAxis[10]);
         });
     },
-    displayBusInRealTime: function(city, id) {
+    displayBusInRealTime: function (city, id) {
       var flag = 0;
-      setInterval(function() {
+      setInterval(function () {
         axios
           .get(
             "https://ptx.transportdata.tw/MOTC/v2/Bus/RealTimeByFrequency/City/" +
-              city +
-              "/" +
-              id +
-              "?$top=30&$format=JSON"
+            city +
+            "/" +
+            id +
+            "?$format=JSON"
           )
-          .then(function(res) {
+          .then(function (res) {
             if (flag !== 0) {
-              vm.busMarkers.forEach(function(bus) {
+              vm.busMarkers.forEach(function (bus) {
                 bus.setMap(null);
                 var index = vm.busMarkers.indexOf(bus);
                 vm.busMarkers.slice(index, 1);
               });
             }
-            res.data.forEach(function(data) {
+
+            res.data.forEach(function (data) {
+
+              if (data.RouteName.Zh_tw != id)
+                return
               // BUS 實體
               let DirectionInText = data.Direction ? "去程" : "返程";
 
@@ -191,9 +196,9 @@ var vm = new Vue({
               var busInfo = new google.maps.InfoWindow({
                 content: `路線 : ${data.RouteName.Zh_tw}\n車牌號碼 :${
                   data.PlateNumb
-                }\n方向 : ${DirectionInText}\n`
+                  }\n方向 : ${DirectionInText}\n`
               });
-              busMarker.addListener("click", function() {
+              busMarker.addListener("click", function () {
                 busInfo.open(vm.map, busMarker);
               }); //同步生成infowindow
               tempMarker.push(busMarker);
@@ -202,57 +207,28 @@ var vm = new Vue({
           });
         var tempMarker = [];
         flag++;
-      }, 5000);
+      }, 10000);
     },
-    getTime: function(city, id, uid) {
+    getTime: function (city, id, uid) {
       target = '[data-route-uid="' + uid + '"]';
       document.querySelector(target).firstChild.lastChild.innerHTML =
         '<div class="loading-container"><div class="loading"></div></div>';
       axios
         .get(
           "http://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/" +
-            city +
-            "/" +
-            id +
-            "?$format=JSON"
+          city +
+          "/" +
+          id +
+          "?$format=JSON"
         )
-        .then(function(res) {
+        .then(function (res) {
           var tmp = "";
-          res.data.forEach(function(data) {
-            let estimateTime = Math.round(data.EstimateTime / 60);
-            if (data.Direction == 1) return false;
-            tmp =
-              tmp +
-              `<li><p>${
-                data.StopName.Zh_tw
-              }<span>${estimateTime}分</span></p></li>`;
-          });
-
-          document.querySelector(target).firstChild.lastChild.innerHTML = tmp;
-        });
-    },
-    displayGo: function(event, city, id, uid) {
-      event.stopPropagation(); //prevent event bubbling
-      target = '[data-route-uid="' + uid + '"]';
-      document.querySelector(target).firstChild.lastChild.innerHTML =
-        '<div class="loading-container"><div class="loading"></div></div>';
-
-      axios
-        .get(
-          "http://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/" +
-            city +
-            "/" +
-            id +
-            "?$format=JSON"
-        )
-        .then(function(res) {
-          var tmp = "";
-          res.data.forEach(function(data) {
+          res.data.forEach(function (data) {
             let estimateTime = "";
             if (!data.Direction) return;
-            if (data.EstimateTime <= "0") {
-              estimateTime = "未停靠";
-            } else if (Math.round(data.EstimateTime / 60) <= "5") {
+            if (data.EstimateTime === undefined) {
+              estimateTime = "停駛";
+            } else if (Math.round(data.EstimateTime / 60) <= "1") {
               estimateTime = "進站中";
             } else {
               estimateTime = Math.round(data.EstimateTime / 60) + "分";
@@ -260,69 +236,146 @@ var vm = new Vue({
             tmp =
               tmp +
               `<li><p>${
-                data.StopName.Zh_tw
+              data.StopName.Zh_tw
+              }<span>${estimateTime}</span></p></li>`;
+          });
+          document.querySelector(target).firstChild.lastChild.innerHTML = tmp;
+        });
+    },
+    displayGo: function (event, city, id, uid) {
+      event.stopPropagation(); //prevent event bubbling
+      target = '[data-route-uid="' + uid + '"]';
+      // tab switch
+      document.querySelector(target).firstChild.getElementsByClassName('back')[0].classList.remove('go-or-back-active');
+      document.querySelector(target).firstChild.getElementsByClassName('go')[0].classList.add('go-or-back-active');
+
+      document.querySelector(target).firstChild.lastChild.innerHTML =
+        '<div class="loading-container"><div class="loading"></div></div>';
+
+      axios
+        .get(
+          "http://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/" +
+          city +
+          "/" +
+          id +
+          "?$format=JSON"
+        )
+        .then(function (res) {
+          var tmp = "";
+          res.data.forEach(function (data) {
+            let estimateTime = "";
+            if (!data.Direction) return;
+            if (data.EstimateTime === undefined) {
+              estimateTime = "停駛";
+            } else if (Math.round(data.EstimateTime / 60) <= "1") {
+              estimateTime = "進站中";
+            } else {
+              estimateTime = Math.round(data.EstimateTime / 60) + "分";
+            }
+            tmp =
+              tmp +
+              `<li><p>${
+              data.StopName.Zh_tw
               }<span>${estimateTime}</span></p></li>`;
           });
 
           document.querySelector(target).firstChild.lastChild.innerHTML = tmp;
         });
     },
-    displayBack: function(event, city, id, uid) {
+    displayBack: function (event, city, id, uid) {
       event.stopPropagation();
       target = '[data-route-uid="' + uid + '"]';
+
+      document.querySelector(target).firstChild.getElementsByClassName('go')[0].classList.remove('go-or-back-active');
+      document.querySelector(target).firstChild.getElementsByClassName('back')[0].classList.add('go-or-back-active');
+
       document.querySelector(target).firstChild.lastChild.innerHTML =
         '<div class="loading-container"><div class="loading"></div></div>';
       axios
         .get(
           "http://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/" +
-            city +
-            "/" +
-            id +
-            "?$format=JSON"
+          city +
+          "/" +
+          id +
+          "?$format=JSON"
         )
-        .then(function(res) {
+        .then(function (res) {
           var tmp = "";
-          res.data.forEach(function(data) {
+          res.data.forEach(function (data) {
             let estimateTime = "";
             if (data.Direction) return;
-            if (data.EstimateTime <= "0") {
-              estimateTime = "未停靠";
-            } else if (Math.round(data.EstimateTime / 60) <= "5") {
+            if (data.EstimateTime === undefined) {
+              estimateTime = "停駛";
+            } else if (Math.round(data.EstimateTime / 60) <= "1") {
               estimateTime = "進站中";
             } else {
               estimateTime = Math.round(data.EstimateTime / 60) + "分";
             }
             tmp =
-              tmp +
-              `<li><p>${
-                data.StopName.Zh_tw
+              tmp + `<li><p>${
+              data.StopName.Zh_tw
               }<span>${estimateTime}</span></p></li>`;
           });
           document.querySelector(target).firstChild.lastChild.innerHTML = tmp;
         });
     },
-    routeFilte: function() {
-      if (this.searchInput === "") {
-        $(".wrap")
-          .find(".title")
-          .show();
-      } else {
-        $(".wrap")
-          .find(".title")
-          .hide();
-          $(".wrap").find(".title").filter(function() {
-            return $($(this).find('.bus-num')).text().includes(this.searchInput)
-          }).show()
+    searchRoute: function () {
+      document.querySelector(".loading-container").style.display = "block";
+      document.querySelector(".recommend-title").style.display = "none";
+      // 取得input
+      console.log(this.searchInput)
+      //搜尋bus
+      axios
+        .get(
+          "https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/" + this.userCurrentCity + "/" + this.searchInput + "?$format=JSON"
+        ).then(function (res) {
+          let recommend = [];
+          res.data.forEach(function (data) {
+            recommend.push({
+              routeUID: data.RouteUID,
+              routeCity: vm.userCurrentCity,
+              routeName: data.RouteName.Zh_tw,
+              departureStopName: data.DepartureStopNameZh,
+              destinationStopName: data.DestinationStopNameZh
+            });
+          })
+          // save to global variable
+          vm.recommendRoutes = recommend;
+        })
+      document.querySelector(".loading-container").style.display = "none";
+      document.querySelector(".recommend-title").style.display = "block";
+    },
+    setCity: function (city) {
+      var citySelectContainer = document.querySelector('.city-select-container').children
+      for (let i = 0; i < citySelectContainer.length; i++) {
+        if (citySelectContainer[i].classList.contains('city-select-active')) {
+          citySelectContainer[i].classList.remove('city-select-active')
+        }
       }
+      this.userCurrentCity = city
+
+      if (city == 'Taipei')
+        citySelectContainer[0].classList.add('city-select-active')
+      else if (city == 'Taoyuan')
+        citySelectContainer[1].classList.add('city-select-active')
+      else if (city == 'NewTaipei')
+        citySelectContainer[2].classList.add('city-select-active')
+      else if (city == 'Taichung')
+        citySelectContainer[3].classList.add('city-select-active')
+      else if (city == 'Tainan')
+        citySelectContainer[4].classList.add('city-select-active')
+      else
+        citySelectContainer[5].classList.add('city-select-active')
+
     }
   },
   computed: {
-    shouldPanelShow: function() {
+    shouldPanelShow: function () {
       return {
         left: this.isPanelOpen ? 0 : "-500px"
       };
     },
-    reverseArrow: function() {
+    reverseArrow: function () {
       return {
         transform: this.isPanelOpen ? "rotate(360deg)" : "rotate(-180deg)"
       };

@@ -106,15 +106,15 @@ section {
   display: block;
 }
 body {
-  overflow: hidden;
   box-sizing: border-box;
   line-height: 1;
 }
 * {
-  font-family: Microsoft JhengHei;
+  box-sizing: border-box;
+  font-family: 'Noto Sans', sans-serif;
 }
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -219,25 +219,22 @@ input {
 }
 
 .bus-list {
-  position: absolute;
-  padding: 25px;
-  max-height: 100%;
+  /* position: absolute; */
+  padding: 10px 24px;
+  max-height: 100vh;
   overflow-x: hidden;
   overflow-y: scroll;
 }
-.wrap {
+/* .wrap {
   width: 500px;
-}
-.bus-list h1 {
+} */
+.bus-list h2 {
   font-size: 30px;
   color: aliceblue;
   margin: 10px 0px 15px 0px;
 }
 .bus-list ul {
-  margin: 60px 0px;
   max-width: 440px;
-  position: relative;
-  z-index: 1;
 }
 .bus-list ul i {
   margin: 14px 10px;
@@ -250,7 +247,7 @@ input {
   background: #00314f;
   border: solid #fccc22 1px;
   border-radius: 2px;
-  width: 88%;
+  /* width: 88%; */
   /* padding: 5px; */
   vertical-align: middle;
   box-shadow: 0px 0px 35px rgba(0, 0, 0, 0.3);
@@ -258,7 +255,7 @@ input {
 summary {
   color: #fccc22;
   display: flex;
-  justify-content: left;
+  /* justify-content: left; */
   align-items: center;
   font-size: 1.8em;
   cursor: pointer;
@@ -283,7 +280,7 @@ details p {
   display: flex;
   justify-content: space-between;
 }
-
+/* 
 details .bus-point {
   display: inline;
   width: 20px;
@@ -291,7 +288,7 @@ details .bus-point {
   background-color: #fccc22;
   border: #fccc22 solid 1px;
   border-radius: 50%;
-}
+} */
 
 detail {
   min-height: 25%;
@@ -356,8 +353,8 @@ detail {
   transition: .5s;
   background: #fccc22;
   color: #00314f;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 #sidebar-toggler {
@@ -428,6 +425,24 @@ detail {
   transition: cubic-bezier(0.075, 0.82, 0.165, 1)
 }
 
+.estimate-time-li {
+  
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  font-size: 1.3em;
+  margin: 5px 0;
+  padding: 5px 10;
+  border: 1px solid black;
+}
+
+.stopName {
+  margin-left: 10px;
+}
+.stopTime {
+  margin-right: 10px;
+}
+
 .from-to {
   font-size: 1.4em;
   color: white;
@@ -435,9 +450,35 @@ detail {
   display: block;
 }
 
-
 .userAddress {
   color: white;
   text-align: center;
   margin: 20px 0;
+}
+
+.city-select-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.city-select {
+  font-size: 0.8em;
+  padding: 10px 15px;
+  color: white;
+  background: #00314f;
+  border: 1px solid #fccc22;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: .5s;
+}
+
+.city-select:hover {
+  background: #fccc22;
+  color: #00314f;
+}
+
+.city-select-active {
+  background: #fccc22;
+  color: #00314f;
 }

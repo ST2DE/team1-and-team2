@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/vue-nav-tabs/themes/vue-tabs.css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
     <link rel="stylesheet" href="./main.css">
     <title>Bus route inquiring</title>
 </head>
@@ -18,13 +19,22 @@
             <vue-tabs>
                 <v-tab title="查詢班次">
                     <div class="route-search-container">
-                        <div class="userAddress"><i class="fa fa-map-marker" aria-hidden="true"></i>{{ userCurrentAddress }}</div>
-                        <input type="text" id="start" placeholder="搜尋路線" autocomplete="on" v-on:input="routeFilte" v-model="searchInput">
-                        <button value="submit" id="btn">查詢路線</button>
+                        <div class="userAddress">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>{{ userCurrentAddress }}</div>
+                        <input type="text" id="start" placeholder="搜尋路線" autocomplete="on" v-on:input="searchRoute" v-model="searchInput">
+                        <div class="city-select-container">
+                            <span class="city-select city-select-active" v-on:click="setCity('Taipei')">台北市</span>
+                            <span class="city-select" v-on:click="setCity('Taoyuan')">桃園市</span>
+                            <span class="city-select" v-on:click="setCity('NewTaipei')">新北市</span>
+                            <span class="city-select" v-on:click="setCity('Taichung')">台中市</span>
+                            <span class="city-select" v-on:click="setCity('Tainan')">台南市</span>
+                            <span class="city-select" v-on:click="setCity('kaohsiung')">高雄市</span>
+                        </div>
+                        <button value="submit" id="btn">查詢路線{{userCurrentCity}}</button>
                         <div class="separator"></div>
                     </div>
                     <div class="bus-list">
-                        <h1>建議路線</h1>
+                        <h2 class="recommend-title">建議路線</h2>
 
                         <div class="loading-container">
                             <div class="loading"></div>
@@ -36,33 +46,31 @@
                                     v-bind:key="route.routeUID" v-on:click="renderDataByCityAndRouteId(route.routeCity, route.routeName, route.routeUID)">
                                     <details>
                                         <summary>
-                                            
+
                                             <i class="fas fa-bus-alt"></i>
                                             <span class="bus-num">{{ route.routeName }}</span>
                                         </summary>
-                                        <span class="from-to">{{ route.departureStopName }} — {{ route.destinationStopName }}</span><br/>
+                                        <span class="from-to">{{ route.departureStopName }} — {{ route.destinationStopName }}</span>
+                                        <br/>
 
                                         <div class="go-or-back">
                                             <span class="go go-or-back-active" v-on:click="displayGo($event, route.routeCity, route.routeName, route.routeUID)">去程</span>
-                                            <span class="back go-or-back-active" v-on:click="displayBack($event, route.routeCity, route.routeName, route.routeUID)">回程</span>
+                                            <span class="back" v-on:click="displayBack($event, route.routeCity, route.routeName, route.routeUID)">回程</span>
                                         </div>
-                                        <ul class="estimate-time-list">
-                                            <li>
-                                                <p>A站
-                                                    <span>1分鐘</span>
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>B站
-                                                    <span>1分鐘</span>
-                                                </p>
-                                            </li>
-                                            <li>
-                                                <p>c站
-                                                    <span>1分鐘</span>
-                                                </p>
-                                            </li>
-                                        </ul>
+                                        <div class="estimate-time-list">
+                                            <div class="estimate-time-li">
+                                                <span class="stopName">龍安龍安龍安國小(公務人力發展學院)</span>
+                                                <span class="stopTime">1 分</span>
+                                            </div>
+                                            <div class="estimate-time-li">
+                                                <span class="stopName">龍安龍安龍安國小(公務人力發展學院)</span>
+                                                <span class="stopTime">1 分</span>
+                                            </div>
+                                            <div class="estimate-time-li">
+                                                <span class="stopName">龍安龍安龍安國小(公務人力發展學院)</span>
+                                                <span class="stopTime">1 分</span>
+                                            </div>
+                                        </div>
                                     </details>
                                 </li>
                             </div>
@@ -93,10 +101,8 @@
         </aside>
         <div id="map"></div>
     </div>
-    <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/vue-nav-tabs/dist/vue-tabs.js"></script>
